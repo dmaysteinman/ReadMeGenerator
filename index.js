@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const generateMarkdown = require("./generate_markdown");
 
 // array of questions for user
 const prompts = [
@@ -39,12 +40,19 @@ const prompts = [
 
 // function to write README file
 function writeToFile(fileName, data) {
-}
+    fs.writeFile(fileName, data, (err)=> {
+        //taken from my eloquent javascript book
+        if (err) console.log(`The file failed to write: ${err}`);
+        else console.log("Success!");
+    });
+};
 
 // function to initialize program
 function init() {
+    inquirer.prompt(prompts).then((data) => {
+        writeToFile("generatedREADME.md", generateMarkdown(data));
+    });
+};
 
-}
-
-// function call to initialize program
+// calling init function
 init();
